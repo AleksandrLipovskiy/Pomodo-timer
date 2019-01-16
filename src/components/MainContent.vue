@@ -7,15 +7,15 @@
 </template>
 
 <script>
-  import {HeaderComponent, FooterComponent, ContentComponent} from './main'
+import { HeaderComponent, FooterComponent, ContentComponent } from './main'
 
-  export default {
-    components: {
-      HeaderComponent,
-      FooterComponent,
-      ContentComponent
-    }
+export default {
+  components: {
+    HeaderComponent,
+    FooterComponent,
+    ContentComponent
   }
+}
 </script>
 
 <style scoped lang="sass">

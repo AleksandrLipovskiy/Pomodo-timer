@@ -5,13 +5,13 @@
 </template>
 
 <script>
-  import {PomodoroTimer} from './sections'
+import {PomodoroTimer} from './sections'
 
-  export default {
-    components: {
-      PomodoroTimer
-    }
+export default {
+  components: {
+    PomodoroTimer
   }
+}
 </script>
 
 <style scoped lang="sass">

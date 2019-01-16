@@ -8,17 +8,17 @@
 </template>
 
 <script>
-  import {Authentication, GoToAppLink, Tagline} from './landing'
-  import {Logo} from './common'
+import {Authentication, GoToAppLink, Tagline} from './landing'
+import {Logo} from './common'
 
-  export default {
-    components: {
-      Logo,
-      Authentication,
-      GoToAppLink,
-      Tagline
-    }
+export default {
+  components: {
+    Logo,
+    Authentication,
+    GoToAppLink,
+    Tagline
   }
+}
 </script>
 
 <style scoped lang="sass">

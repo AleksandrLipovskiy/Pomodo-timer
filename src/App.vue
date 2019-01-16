@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <h1>Welcome to Pomodoro Timer</h1>
+    <main-content></main-content>
   </div>
 </template>
 
 <script>
+import MainContent from './components/MainContent'
+
 export default {
   name: 'app',
   components: {
-    
+    MainContent
   }
 }
 </script>
