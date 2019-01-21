@@ -1,6 +1,20 @@
 import { firebaseAction } from 'vuexfire'
 
 export default {
+  createUser ({state}, {email, password}) {
+    state.firebaseApp.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+      console.log(error.code, error.message)
+    })
+  },
+
+  authenticate ({state}, {email, password}) {
+    state.firebaseApp.auth().signInWithEmailAndPassword(email, password)
+  },
+
+  logout ({state}) {
+    state.firebaseApp.auth().signOut()
+  },
+
   setWorkingPomodoro ({commit, state}, workingPomodoro) {
     if (!workingPomodoro) {
       return
@@ -42,6 +56,12 @@ export default {
 
   updateTotalPomodoros ({state}, totalPomodoros) {
     state.statisticsRef.update({totalPomodoros: totalPomodoros})
+  },
+
+  bindAuth ({commit, state}) {
+    state.firebaseApp.auth().onAuthStateChanged((user) => {
+      commit('setUser', user)
+    })
   },
 
   bindConfig: firebaseAction(({bindFirebaseRef, state}) => {  

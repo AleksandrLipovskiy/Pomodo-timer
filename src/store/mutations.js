@@ -1,4 +1,8 @@
 export default {
+	setUser (state, value) {
+		state.user = value
+	},
+
   setWorkingPomodoro (state, workingPomodoro) {
     state.config.workingPomodoro = workingPomodoro
   },

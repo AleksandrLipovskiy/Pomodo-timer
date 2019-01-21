@@ -1,3 +1,5 @@
+const user = null
+
 const config = {
   workingPomodoro: 20,
   shortBreak: 5,
@@ -25,7 +27,9 @@ const statistics = {
 }
 
 export default {
+  user,
+  isAnonymous: false,
 	config,
 	settings,
-	statistics
+	statistics,
 }
