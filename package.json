@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "bootstrap": "^4.2.1",
+    "firebase": "^5.8.0",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.6",
-    "vue": "^2.5.21"
+    "vue": "^2.5.22",
+    "vuex": "^3.1.0",
+    "vuexfire": "^2.3.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

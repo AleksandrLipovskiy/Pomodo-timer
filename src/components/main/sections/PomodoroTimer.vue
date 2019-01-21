@@ -26,7 +26,7 @@
 
 <script>
 import CountDownTimer from './timer/CountDownTimer'
-import config from '../../../config'
+import { mapGetters } from 'vuex'
 
 export default {
 	data: function() {
@@ -39,15 +39,19 @@ export default {
 	},
 
 	computed: {
+		...mapGetters({
+			config: 'getConfig'
+		}),
+
 		time() {
 			let minutes
 
 			if (this.isWorking) {
-				minutes = config.workingPomodoro
+				minutes = this.config.workingPomodoro
 			} else if (this.isShortBreak) {
-				minutes = config.shortBreak
+				minutes = this.config.shortBreak
 			} else if (this.isLongBreak) {
-				minutes = config.longBreak
+				minutes = this.config.longBreak
 			}
 
 			return minutes * 60
@@ -64,7 +68,7 @@ export default {
 			}
 
 			this.pomodoros ++
-			this.isLongBreak = this.pomodoros % config.pomodorosTillLongBreak === 0
+			this.isLongBreak = this.pomodoros % this.config.pomodorosTillLongBreak === 0
 			this.isShortBreak = !this.isLongBreak
 		}
 	},
