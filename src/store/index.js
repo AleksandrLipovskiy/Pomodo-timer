@@ -18,13 +18,16 @@ let app = firebase.initializeApp({
   storageBucket: "pomodoro-timer-64274.appspot.com",
   messagingSenderId: "320373298916"
 })
+let db = app.database()
 
-let configRef = app.database().ref('/configuration/test')
+let configRef = db.ref('/configuration/test')
+let statisticsRef = db.ref('/statistics/test')
 
 export default new Vuex.Store({
 	state: {
 		...state,
-		configRef
+		configRef,
+		statisticsRef
 	},
 	getters,
 	mutations: {

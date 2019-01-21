@@ -40,7 +40,15 @@ export default {
     }
   },
 
+  updateTotalPomodoros ({state}, totalPomodoros) {
+    state.statisticsRef.update({totalPomodoros: totalPomodoros})
+  },
+
   bindConfig: firebaseAction(({bindFirebaseRef, state}) => {  
     bindFirebaseRef('config', state.configRef) 
+  }),
+
+  bindStatistics: firebaseAction(({bindFirebaseRef, state}) => {
+    bindFirebaseRef('statistics', state.statisticsRef)
   })
 }
