@@ -1,10 +1,16 @@
 <template>
-  <div>Header</div>
+  <div>
+    <button @click="logout">Logout</button>
+  </div>
 </template>
 
 <script>
-export default {
+import {mapActions} from 'vuex'
 
+export default {
+	methods: {
+    ...mapActions(['logout'])
+  }
 }
 </script>
 
