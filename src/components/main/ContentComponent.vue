@@ -1,19 +1,13 @@
 <template>
   <div>
-    <settings></settings>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { Settings } from './sections'
+import router from '@/router'
 
 export default {
-  components: {
-    Settings
-  }
+  router
 }
 </script>
-
-<style scoped lang="sass">
-
-</style>

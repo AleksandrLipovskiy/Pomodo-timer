@@ -33,7 +33,7 @@ export default {
     return {
       displayName: '',
       email: '',
-      photoURL: require('../../../../assets/tomato.png'),
+      photoURL: require('@/assets/tomato.png'),
       showChangeProfilePicInput: false
     }
   },
