@@ -1,17 +1,15 @@
 <template>
   <div>
-    <statistics></statistics>
+    <settings></settings>
   </div>
 </template>
 
 <script>
-import { PomodoroTimer, Settings, Statistics } from './sections'
+import { Settings } from './sections'
 
 export default {
   components: {
-    PomodoroTimer,
-    Settings,
-    Statistics
+    Settings
   }
 }
 </script>

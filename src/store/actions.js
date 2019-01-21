@@ -2,7 +2,8 @@ import { firebaseAction } from 'vuexfire'
 
 export default {
   createUser ({state}, {email, password}) {
-    state.firebaseApp.auth().createUserWithEmailAndPassword(email, password).catch(error => {
+    state.firebaseApp.auth().createUserWithEmailAndPassword(email, password)
+    .catch(error => {
       console.log(error.code, error.message)
     })
   },
@@ -64,21 +65,50 @@ export default {
     state.statisticsRef.update({totalPomodoros: totalPomodoros})
   },
 
-  bindAuth ({commit, state}) {
-    state.firebaseApp.auth().onAuthStateChanged((user) => {
+  bindAuth ({commit, dispatch, state}) {
+    state.firebaseApp.auth().onAuthStateChanged(user => {
       commit('setUser', user)
+
+      if (user && !user.isAnonymous) {
+        dispatch('bindFirebaseReferences', user)
+      }
+      if (!user) {
+        dispatch('unbindFirebaseReferences')
+      }
     })
   },
 
-  bindConfig: firebaseAction(({bindFirebaseRef, state}) => {
-    if (state.user && !state.isAnonymous) {
-      bindFirebaseRef('config', state.configRef)
-    }
+  bindFirebaseReferences: firebaseAction(({bindFirebaseRef, state, commit, dispatch}, user) => {
+    let db = state.firebaseApp.database()
+    let configRef = db.ref(`/configuration/${user.uid}`)
+    let statisticsRef = db.ref(`/statistics/${user.uid}`)
+
+    dispatch('bindFirebaseReference', {reference: configRef, toBind: 'config'}).then(() => {
+      commit('setConfigRef', configRef)
+    })
+
+    dispatch('bindFirebaseReference', {reference: statisticsRef, toBind: 'statistics'}).then(() => {
+      commit('setStatisticsRef', statisticsRef)
+    })
   }),
 
-  bindStatistics: firebaseAction(({bindFirebaseRef, state}) => {
-    if (state.user && !state.isAnonymous) {
-      bindFirebaseRef('statistics', state.statisticsRef)
+  bindFirebaseReference: firebaseAction(({bindFirebaseRef, state}, {reference, toBind}) => {
+    return reference.once('value').then(snapshot => {
+      if (!snapshot.val()) {
+        reference.set(state[toBind])
+      }
+      bindFirebaseRef(toBind, reference)
+    })
+  }),
+
+  unbindFirebaseReferences: firebaseAction(({unbindFirebaseRef, commit}) => {
+    commit('setConfigRef', null)
+    commit('setStatisticsRef', null)
+    try {
+      unbindFirebaseRef('config')
+      unbindFirebaseRef('statistics')
+    } catch (error) {
+      return
     }
   })
 }
