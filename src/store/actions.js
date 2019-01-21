@@ -11,6 +11,12 @@ export default {
     state.firebaseApp.auth().signInWithEmailAndPassword(email, password)
   },
 
+  authenticateAnonymous ({state}) {
+    state.firebaseApp.auth().signInAnonymously().catch(error => {
+      console.log(error.code, error.message)
+    })
+  },
+
   logout ({state}) {
     state.firebaseApp.auth().signOut()
   },
@@ -64,11 +70,15 @@ export default {
     })
   },
 
-  bindConfig: firebaseAction(({bindFirebaseRef, state}) => {  
-    bindFirebaseRef('config', state.configRef) 
+  bindConfig: firebaseAction(({bindFirebaseRef, state}) => {
+    if (state.user && !state.isAnonymous) {
+      bindFirebaseRef('config', state.configRef)
+    }
   }),
 
   bindStatistics: firebaseAction(({bindFirebaseRef, state}) => {
-    bindFirebaseRef('statistics', state.statisticsRef)
+    if (state.user && !state.isAnonymous) {
+      bindFirebaseRef('statistics', state.statisticsRef)
+    }
   })
 }
