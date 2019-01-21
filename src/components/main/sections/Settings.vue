@@ -2,57 +2,24 @@
   <div class="row justify-content-center">
 
     <div class="col-sm-12 col-md-6 col-lg-4">
-      <div class="container">
-        <h2>Account settings</h2>
-        Account settings
-      </div>
+      <account-settings></account-settings>
     </div>
 
     <div class="col-sm-12 col-md-6 col-lg-8">
-      <div class="container">
-        <h2>Set your pomodoro timer</h2>
-        <div class="row justify-content-center align-items-center">
-
-          <div class="col-md-5 col-sm-10">
-            <set-timer :value="config.workingPomodoro" @valueChanged="setWorkingPomodoro"></set-timer>
-            <div class="figure-caption">Pomodoro</div>
-          </div>
-
-          <div class="col-md-4 col-sm-10">
-            <set-timer :value="config.longBreak" @valueChanged="setLongBreak"></set-timer>
-            <div class="figure-caption">Long break</div>
-          </div>
-
-          <div class="col-md-3 col-sm-10">
-            <set-timer :value="config.shortBreak" @valueChanged="setShortBreak"></set-timer>
-            <div class="figure-caption">Short break</div>
-          </div>
-
-        </div>
-      </div>
+      <pomodoro-timer-settings></pomodoro-timer-settings>
     </div>
 
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import SetTimer from './timer/SetTimer'
+import PomodoroTimerSettings from './settings/PomodoroTimerSettings'
+import AccountSettings from './settings/AccountSettings'
 
 export default {
-	computed: {
-		...mapGetters({
-			settings: 'getSettings',
-			config: 'getConfig'
-		})
-	},
-
 	components: {
-		SetTimer
-	},
-
-	methods: {
-    ...mapActions(['setWorkingPomodoro', 'setShortBreak', 'setLongBreak'])
+    PomodoroTimerSettings,
+    AccountSettings
   }
 }
 </script>

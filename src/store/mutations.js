@@ -3,6 +3,10 @@ export default {
     state.user = value
   },
 
+  setDisplayName (state, value) {
+    state.displayName = value
+  },
+
   setConfigRef (state, value) {
     state.configRef = value
   },

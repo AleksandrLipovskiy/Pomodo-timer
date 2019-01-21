@@ -1,18 +1,13 @@
 const user = null
+const configRef = null
+const statisticsRef = null
+const displayName = ''
 
 const config = {
   workingPomodoro: 20,
   shortBreak: 5,
   longBreak: 10,
   pomodorosTillLongBreak: 3
-}
-
-const settings = {
-  userName: 'Olga',
-  email: 'chudaol@gmail.com',
-  profile_picture: require('../assets/myAvatar.png'),
-  uid: '',
-  isLoggedIn: true
 }
 
 const statistics = {
@@ -27,9 +22,10 @@ const statistics = {
 }
 
 export default {
+  config,
   user,
-  isAnonymous: false,
-	config,
-	settings,
-	statistics,
+  configRef,
+  statisticsRef,
+  statistics,
+  displayName
 }

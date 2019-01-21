@@ -1,5 +1,6 @@
 export default {
 	getConfig: state => state.config,
-	getSettings: state => state.settings,
-	getTotalPomodoros: state => state.statistics.pomodorosTotal
+  getUser: state => state.user,
+  getDisplayName: state => state.user.displayName,
+  getTotalPomodoros: state => state.statistics.totalPomodoros
 }

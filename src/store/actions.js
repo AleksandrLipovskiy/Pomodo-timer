@@ -8,6 +8,27 @@ export default {
     })
   },
 
+  updateUserName ({state, commit}, displayName) {
+    state.user.updateProfile({
+      displayName
+    })
+    commit('setDisplayName', displayName)
+  },
+
+  updatePhotoURL ({state}, photoURL) {
+    state.user.updateProfile({
+      photoURL
+    })
+  },
+
+  updateUserEmail ({state}, email) {
+    state.user.updateEmail(email).then(() => {
+      // Update successful.
+    }, error => {
+      console.log(error)
+    })
+  },
+
   authenticate ({state}, {email, password}) {
     state.firebaseApp.auth().signInWithEmailAndPassword(email, password)
   },
@@ -78,7 +99,7 @@ export default {
     })
   },
 
-  bindFirebaseReferences: firebaseAction(({bindFirebaseRef, state, commit, dispatch}, user) => {
+  bindFirebaseReferences: firebaseAction(({state, commit, dispatch}, user) => {
     let db = state.firebaseApp.database()
     let configRef = db.ref(`/configuration/${user.uid}`)
     let statisticsRef = db.ref(`/statistics/${user.uid}`)
