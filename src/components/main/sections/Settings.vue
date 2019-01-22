@@ -1,14 +1,16 @@
 <template>
-  <div class="row justify-content-center">
+  <div class="container min-full-height">
+    <div class="main-content row">
 
-    <div class="col-sm-12 col-md-6 col-lg-4">
-      <account-settings></account-settings>
+      <div class="col-sm-12 col-lg-4">
+        <account-settings></account-settings>
+      </div>
+
+      <div class="col-sm-12 col-lg-8">
+        <pomodoro-timer-settings></pomodoro-timer-settings>
+      </div>
+      
     </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-8">
-      <pomodoro-timer-settings></pomodoro-timer-settings>
-    </div>
-
   </div>
 </template>
 
@@ -25,7 +27,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.figure-caption {
-  text-align: center;
-}
+@import "../../../assets/styles/main";
 </style>

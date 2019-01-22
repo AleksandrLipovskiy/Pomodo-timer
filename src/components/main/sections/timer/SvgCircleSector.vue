@@ -1,25 +1,43 @@
 <template>
-  <div class="circle">
-    <svg class="timer" viewBox="0 0 200 200" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
-      <circle class="bigCircle" r="100" cx="100" cy="100"></circle>
-      <circle class="smallCircle" r="90" cx="100" cy="100"></circle>
-      <path class="segment" :d="path"></path>
-      <text v-if="text != ''" class="text" x="100" y="100">
-        {{text}}
-      </text>
-    </svg>
+  <div class="timer-holder">
+    <div class="center-content">
+      <svg class="timer" viewBox="0 0 200 200" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg">
+        <circle class="bigCircle" r="100" cx="100" cy="100"></circle>
+        <circle class="smallCircle" r="90" cx="100" cy="100"></circle>
+        <path class="segment" :d="path"></path>
+        <slot></slot>
+        <text v-if="text != ''" class="text" x="100" y="100">
+          {{ text }}
+        </text>
+      </svg>
+    </div>
   </div>
 </template>
+
 <script>
+/**
+ * Calculates the x,y coordinates on the circumference for the given angle
+ * @param {number} angle
+ * @returns {object}
+ */
 function calcEndPoint (angle) {
   let x, y
-  x = 100 - 100 * Math.sin(Math.PI * angle / 180)
-  y = 100 - 100 * Math.cos(Math.PI * angle / 180)
+  if (angle <= 180) {
+    x = 100 - 100 * Math.sin(Math.PI * angle / 180)
+    y = 100 - 100 * Math.cos(Math.PI * angle / 180)
+  } else {
+    x = 100 - 100 * Math.sin(Math.PI * angle / 180)
+    y = 100 - 100 * Math.cos(Math.PI * angle / 180)
+  }
   return {
     x, y
   }
 }
-
+/**
+ * Calculates the path attribute for the svg element to draw a circle sector for the given angle
+ * @param {number} angle
+ * @returns {string}
+ */
 function calcPath (angle) {
   let d
   let {x, y} = calcEndPoint(angle)
@@ -42,42 +60,40 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$big-circle-color: gray;
-$small-circle-color: lightgray;
-$segment-color: darkgray;
-$text-color: black;
+@import "../../../../assets/styles/main";
 
-.circle {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  padding-bottom: 55%;
-  vertical-align: middle;
-  svg {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
+.timer-holder {
+  margin: 30px auto;
+  display: table;
+  @include media-breakpoint-down(md) {
+    margin-top: 80px;
+    width: 300px;
+    height: 300px;
   }
 }
-
 .bigCircle {
-  fill: $big-circle-color;
+  fill: $color-red;
 }
-
 .smallCircle {
-  fill: $small-circle-color;
+  fill: $color-primary;
 }
-
 .segment {
-  fill: $segment-color;
+  fill: $color-red;
   opacity: 0.6;
 }
-
 .text {
-  font-size: 1em;
-  stroke-width: 0;
+  font-weight: lighter;
   opacity: .9;
-  fill: $text-color;
+  fill: $color-white;
+  text-anchor: middle;
+}
+.timer {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  @include media-breakpoint-down(md) {
+    width: 300px;
+    height: 300px;
+  }
 }
 </style>

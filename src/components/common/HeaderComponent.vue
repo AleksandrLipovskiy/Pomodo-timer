@@ -1,49 +1,46 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-md navbar-light">
-
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="navbar-brand">
-        <logo></logo>
-      </div>
-
-      <div class="collapse navbar-collapse" id="navbarHeader">
-
-        <ul v-if="isAuthenticated" class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'home' }">
-              Home
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'settings' }">
-              Settings
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'statistics' }">
-              Statistics
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'workouts' }">
-              Workouts
-            </router-link>
-          </li>
-        </ul>
-
-        <form v-if="user" class="form-inline my-2 my-lg-0">
-          <button v-if="isAuthenticated" class="btn btn-secondary" @click="onLogout">Logout</button>
-          <button v-if="!isAuthenticated" class="btn btn-secondary" @click="onLogout">Go to the start page</button>
-        </form>
-      </div>
-
-    </nav>
-  </div>
+  <header class="header">
+    <div class="container">
+      <nav class="navbar navbar-expand-md navbar-light">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-brand">
+          <logo></logo>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarHeader">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'home' }">
+                Home
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{disabled:!isAuthenticated}" :to="{ name: 'settings' }">
+                Settings
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{disabled:!isAuthenticated}" :to="{ name: 'statistics' }">
+                Statistics
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{disabled:!isAuthenticated}" :to="{ name: 'workouts' }">
+                Workouts
+              </router-link>
+            </li>
+          </ul>
+          <form class="buttons-holder">
+            <span v-if="isAuthenticated" class="nav-link" @click="onLogout">Logout</span>
+            <span v-if="!isAuthenticated" class="nav-link" @click="onLogout">Go to the start page</span>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </header>
 </template>
+
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Logo from './Logo'
@@ -71,7 +68,58 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/styles/main";
 
-button {
-  cursor: pointer;
+.header {
+  height: $header-height;
+  color: $color-primary;
+  @include media-breakpoint-down(md) {
+    height: auto;
+    min-height: $header-md-height;
+    background-color: $color-white;
+  }
+  .container,
+  .navbar {
+    height: 100%;
+  }
+  .navbar {
+    @include flexbox();
+    @include justify-content(center);
+    @include media-breakpoint-down(md) {
+      position: initial;
+    }
+  }
+  .navbar-collapse {
+    margin-top: -50px;
+    @include media-breakpoint-down(md) {
+      z-index: 20;
+      position: absolute;
+      top: $header-md-height + 50px;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      background-color: $color-white;
+    }
+  }
+  .nuxt-link-active {
+    font-weight: bold;
+  }
+  .nav-link {
+    color: rgba($color-primary, 0.7);
+    cursor: pointer;
+    @include media-breakpoint-down(md) {
+      padding-right: 0;
+      padding-left: 0;
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      color: $color-primary;
+    }
+  }
+  .buttons-holder {
+    margin-left: 60px;
+    @include media-breakpoint-down(md) {
+      margin-left: 0;
+    }
+  }
 }
 </style>

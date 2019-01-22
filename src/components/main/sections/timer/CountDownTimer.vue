@@ -1,136 +1,123 @@
 <template>
-  <div class="container text-center">
-
-    <div class="row justify-content-center">
-      <svg-circle-sector class="col-sm-12 col-md-10 col-lg-6" :angle="angle" :text="text"></svg-circle-sector>
-    </div>
-
+  <div class="content">
+    <svg-circle-sector class="countdown-timer col-sm-12 col-md-10 col-lg-6" :angle="angle" :text="text"></svg-circle-sector>
     <div class="controls">
       <div class="btn-group" role="group">
-        <button @click="start" type="button" :class="{disabled: isStarted && !isPaused}" class="btn btn-link">Start</button>
-        <button @click="pause" type="button" :class="{disabled: !isStarted || isPaused}" class="btn btn-link">Pause</button>
-        <button @click="stop" type="button" :class="{disabled: !isStarted || isStopped}" class="btn btn-link">Stop</button>
+        <button @click="start" type="button" :class="{disabled: state === 0}" class="btn btn-link"><img :src="playIcon" /></button>
+        <button @click="pause" type="button" :class="{disabled: state === 1 || state === 2}" class="btn btn-link"><img :src="pauseIcon" /></button>
+        <button @click="stop" type="button" :class="{disabled: state === 2}" class="btn btn-link btn-stop"><img :src="stopIcon" /></button>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import SvgCircleSector from './SvgCircleSector'
-const SECOND = 1000
+import { leftPad, numberOfSecondsFromNow } from '@/utils/utils'
 
-function leftPad (value) {
-	if (('' + value).length > 1) {
-		return value
-	}
-	return '0' + value
-}
-
-function numberOfSecondsFromNow (startTime) {
-	if (!startTime) {
-		return 0
-	}
-	return Math.floor((Date.now() - startTime) / SECOND)
+const STATE = {
+  STARTED: 0,
+  PAUSED: 1,
+  STOPPED: 2
 }
 
 export default {
-	props: ['time'],
+  props: ['time'],
 
-	data: function() {
-		return {
-			interval: null,
-			timestamp: this.time,
-			isStarted: false,
-			isPaused: false,
-			isStopped: true,
-			startTime: null,
-			pauseTime: null,
-			pauseSeconds: 0
-		}
-	},
+  data () {
+    return {
+      timestamp: this.time,
+      interval: null,
+      state: STATE.STOPPED,
+      startTime: null,
+      pauseTime: null,
+      pauseSeconds: 0,
+      playIcon: require('@/assets/images/play_icon.svg'),
+      pauseIcon: require('@/assets/images/pause_icon.svg'),
+      stopIcon: require('@/assets/images/stop_icon.svg')
+    }
+  },
 
-	computed: {
-		minutes () {
-			return Math.floor(this.timestamp / 60)
-		},
+  computed: {
+    minutes () {
+      return Math.floor(this.timestamp / 60)
+    },
 
-		seconds () {
-			return this.timestamp % 60
-		},
+    seconds () {
+      return this.timestamp % 60
+    },
 
-		angle () {
-			return 360 - (360 / this.time * this.timestamp)
-		},
+    angle () {
+      return 360 - (360 / this.time * this.timestamp)
+    },
 
-		text () {
-			return `${leftPad(this.minutes)}:${leftPad(this.seconds)}`
-		}
-	},
+    text () {
+      return `${leftPad(this.minutes)}:${leftPad(this.seconds)}`
+    }
+  },
 
-	components: {
-		SvgCircleSector
-	},
+  components: {
+    SvgCircleSector
+  },
 
-	methods: {
-		_reset () {
-			this.pauseTime = null
-			this.isStarted = true
-			this.isStopped = false
-			this.isPaused = false
+  methods: {
+    _reset () {
+      this.pauseTime = null
+      this.state = STATE.STOPPED
+      if (this.interval) {
+        clearInterval(this.interval)
+      }
+    },
 
-			if (this.interval) {
-				clearInterval(this.interval)
-			}
-		},
+    start () {
+      if (this.state !== STATE.STARTED && this.state !== STATE.PAUSED) {
+        this.timestamp = this.time
+        this.startTime = Date.now()
+      }
+      this.pauseSeconds += numberOfSecondsFromNow(this.pauseTime)
+      this._reset()
+      this.state = STATE.STARTED
+      this.interval = setInterval(() => {
+        // seconds from the start time until now
+        let secondsFromStart = numberOfSecondsFromNow(this.startTime)
+        this.timestamp = this.time - secondsFromStart + this.pauseSeconds
+        if (this.timestamp <= 0) {
+          this.stop()
+          this.$emit('finished')
+        }
+      }, 10)
+    },
 
-		start () {
-			if (this.isStarted === false) {
-				this.timestamp = this.time
-				this.startTime = Date.now()
-			}
+    pause () {
+      this.pauseTime = Date.now()
+      clearInterval(this.interval)
+      this.state = STATE.PAUSED
+    },
 
-			this.pauseSeconds += numberOfSecondsFromNow(this.pauseTime)
-			this._reset()
+    stop () {
+      clearInterval(this.interval)
+      this.timestamp = this.time
+      this.pauseSeconds = 0
+      this.state = STATE.STOPPED
+    }
+  },
 
-			this.interval = setInterval(() => {
-				let secondsFromStart = numberOfSecondsFromNow(this.startTime)
-				this.timestamp = this.time - secondsFromStart + this.pauseSeconds
-
-				if (this.timestamp <= 0) {
-					this.$emit('finished')
-					this.timestamp = this.time
-				}
-			}, 10)
-		},
-
-		pause () {
-			this.pauseTime = Date.now()
-			clearInterval(this.interval)
-			this.isPaused = true
-		},
-
-		stop () {
-			clearInterval(this.interval)
-			this.timestamp = this.time
-			this.pauseSeconds = 0
-			this.isStopped = true
-			this.isStarted = false
-			this.isPaused = false
-		}
-	},
-
-	watch: {
-		time () {
-			this.isStarted = false
-			this.start()
-		}
-	}
+  watch: {
+    time () {
+      this.timestamp = this.time
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-button {
-	cursor: pointer;
+@import "../../../../assets/styles/main";
+
+.content {
+  @extend .center-content;
+  @include flex-direction(column);
+}
+.controls .btn {
+  cursor: pointer;
 }
 </style>

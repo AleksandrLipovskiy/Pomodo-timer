@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainPage">
     <header-component></header-component>
     <content-component></content-component>
     <footer-component></footer-component>
@@ -19,6 +19,10 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
+<style scoped lang="scss">
 @import "../assets/styles/main";
+
+.mainPage {
+  background-color: $color-grey-lightest;
+}
 </style>

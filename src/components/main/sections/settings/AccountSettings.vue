@@ -1,9 +1,8 @@
 <template>
-  <div class="container">
-    <h2>Account settings</h2>
+  <div>
+    <h2 class="title">Account settings</h2>
 
     <form>
-
       <div class="form-group">
         <figure class="figure">
           <img class="img-thumbnail" :src="photoURL" alt="Avatar">
@@ -12,14 +11,9 @@
         </figure>
       </div>
 
-      <div class="form-group">
-        <input class="form-control rounded-0" @change="onChangeUserName" v-model="displayName" type="text" placeholder="Change your username">
-      </div>
+      <input class="input rounded-0" @change="onChangeUserName" v-model="displayName" type="text" placeholder="Change your username">
 
-      <div class="form-group">
-        <input class="form-control rounded-0" @change="onChangeUserEmail" v-model="email" type="text" placeholder="Change your username">
-      </div>
-
+      <input class="input rounded-0" @change="onChangeUserEmail" v-model="email" type="text" placeholder="Change your username">
     </form>
 
   </div>
@@ -33,7 +27,7 @@ export default {
     return {
       displayName: '',
       email: '',
-      photoURL: require('@/assets/tomato.png'),
+      photoURL: require('@/assets/images/tomato.png'),
       showChangeProfilePicInput: false
     }
   },
@@ -72,8 +66,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../../../assets/styles/main";
+
 img {
-  max-width: 50%;
+  margin-top: 20px;
+  max-width: 200px;
 }
 figcaption {
   cursor: pointer;
