@@ -1,20 +1,21 @@
-const user = null
-const configRef = null
-const statisticsRef = null
-const displayName = ''
-
 const config = {
-  workingPomodoro: 20,
+  workingPomodoro: 25,
   shortBreak: 5,
   longBreak: 10,
   pomodorosTillLongBreak: 3
 }
 
+const user = null
+const configRef = null
+const statisticsRef = null
+const workoutsRef = null
+const displayName = ''
+
 const statistics = {
   pomodorosToday: 0,
   pomodorosLastWeek: 0,
   pomodorosLastMonth: 0,
-  pomodorosTotal: 0,
+  totalPomodoros: 0,
   workoutsToday: 0,
   workoutLastWeek: 0,
   workoutsLastMonth: 0,
@@ -26,6 +27,8 @@ export default {
   user,
   configRef,
   statisticsRef,
+  workoutsRef,
   statistics,
-  displayName
+  displayName,
+  workouts: []
 }
