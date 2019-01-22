@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { HeaderComponent, FooterComponent, ContentComponent } from './main'
+import { HeaderComponent, FooterComponent } from './common'
+import { ContentComponent } from './main'
 
 export default {
   components: {
@@ -19,5 +20,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+@import "../assets/styles/main";
 </style>

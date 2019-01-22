@@ -19,6 +19,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/styles/main";
+
 .logo {
   max-width: 20%;
 }

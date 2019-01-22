@@ -5,7 +5,7 @@ import store from '@/store'
 
 Vue.use(Router)
 
-let router = new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
